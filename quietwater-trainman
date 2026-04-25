@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainman Suite | Quiet Water</title>
+  <meta name="description" content="Runtime Containment & Behavioral Monitoring for Multi-Agent AI. Isolated execution. Resource bounding. Verifiable boundaries. Chain-ready with Quiet Water infrastructure.">
+  <meta name="theme-color" content="#08090c">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Spectral:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090c; --surface: rgba(19,22,29,0.5);
+      --text-primary: #f2eeea; --text-secondary: #7a8490;
+      --gold: #c8a850; --gold-lt: #e2c97a; --blue-lt: #8ac4e0;
+      --pearl: #f2eeea; --silver: #bec8d2; --dgrey: #30363f;
+      --accent: #06b6d4; --success: #10b981;
+      --radius: 8px; --radius-lg: 12px;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Spectral', Georgia, serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text-primary); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+    a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
+    a:hover { color: var(--blue-lt); }
+    .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 1.5rem; }
+    .flex { display: flex; gap: 1rem; align-items: center; }
+    .text-center { text-align: center; }
+    .mono { font-family: var(--font-mono); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.8rem 1.6rem; border-radius: var(--radius); font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; border: none; white-space: nowrap; }
+    .btn-primary { background: var(--gold); color: var(--bg); }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1px solid var(--dgrey); color: var(--silver); }
+    .btn-outline:hover { border-color: var(--silver); color: var(--pearl); }
+    header { position: sticky; top: 0; z-index: 100; background: linear-gradient(180deg, rgba(8,9,12,0.96) 0%, transparent 100%); border-bottom: 1px solid rgba(200,168,80,0.07); }
+    .nav { justify-content: space-between; padding: 1.5rem 0; }
+    .brand { font-family: var(--font-serif); font-weight: 300; font-size: 1.5rem; letter-spacing: 0.5em; color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--text-secondary); text-transform: uppercase; }
+    .nav-links a:hover { color: var(--silver); }
+    .nav-cta { display: flex; gap: 0.8rem; }
+    section { padding: 6rem 0; position: relative; z-index: 1; }
+    .section-label { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; display: block; margin-bottom: 1.2rem; }
+    .section-title { font-family: var(--font-serif); font-weight: 300; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.2; color: var(--pearl); margin-bottom: 1rem; }
+    .section-subtitle { font-style: italic; color: var(--blue-lt); max-width: 720px; margin: 0 auto 3rem; font-size: 1.1rem; }
+    .card { background: var(--surface); border: 1px solid rgba(192,200,208,0.05); border-radius: var(--radius-lg); padding: 1.75rem; transition: all 0.5s; position: relative; overflow: hidden; }
+    .card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.5s ease; }
+    .card:hover { background: rgba(13,15,20,0.85); }
+    .card:hover::after { width: 100%; }
+    .card h3 { font-family: var(--font-serif); font-size: 1.25rem; color: var(--pearl); margin-bottom: 0.6rem; }
+    .card p { color: var(--text-secondary); font-size: 0.92rem; }
+    .code-box { background: #0d1117; padding: 1.35rem; border-radius: var(--radius); overflow-x: auto; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.88rem; color: #c9d1d9; border: 1px solid #30363d; line-height: 1.6; }
+    .code-box .comment { color: #8b949e; }
+    .code-box .cmd { color: #7ee787; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; }
+    th, td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid rgba(48,54,63,0.6); }
+    th { color: var(--silver); font-weight: 600; background: rgba(31,41,55,0.4); }
+    td { color: var(--text-secondary); }
+    code { background: rgba(48,54,63,0.4); padding: 0.15rem 0.35rem; border-radius: 4px; font-size: 0.88em; }
+    .pass { color: var(--success); font-weight: 600; }
+    .toc { max-width: 650px; margin: 0 auto 3rem; padding: 1.5rem; background: var(--surface); border: 1px solid rgba(192,200,208,0.05); border-radius: var(--radius); }
+    .toc h2 { font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 0.8rem; text-align: center; color: var(--silver); }
+    .toc ul { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; }
+    .toc a { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.15em; color: var(--accent); display: block; padding: 0.3rem 0; text-transform: uppercase; }
+    .stack-note { background: rgba(6,182,212,0.1); border-left: 3px solid var(--accent); padding: 0.85rem 1rem; border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.9rem; margin: 1rem 0; color: var(--text-secondary); }
+    .license-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.85rem; background: rgba(16,185,129,0.12); color: var(--success); border: 1px solid rgba(16,185,129,0.35); border-radius: 999px; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .pricing-ref { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin: 1.5rem 0; }
+    .pricing-ref div { font-size: 0.82rem; text-align: center; }
+    .pricing-ref strong { color: var(--silver); display: block; margin-bottom: 0.25rem; }
+    .pricing-ref .gold { color: var(--gold); }
+    #disclaimer, #terms-compliance { max-width: 850px; margin: 4rem auto 0; padding: 2.5rem; background: var(--surface); border: 1px solid rgba(192,200,208,0.08); border-radius: var(--radius-lg); }
+    #disclaimer h2, #terms-compliance h2 { font-family: var(--font-serif); font-size: 1.6rem; color: var(--gold); margin-bottom: 1.2rem; }
+    #disclaimer h3, #disclaimer h4 { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--silver); margin: 1.8rem 0 0.8rem; }
+    #disclaimer p, #terms-compliance p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.9; }
+    footer { padding: 3rem 0; border-top: 1px solid rgba(200,168,80,0.07); }
+    .footer-grid { display: grid; gap: 2.5rem; grid-template-columns: 1.5fr 1fr 1fr; margin-bottom: 2rem; }
+    .footer-brand p { margin-top: 0.6rem; color: var(--text-secondary); font-size: 0.88rem; }
+    .footer-links h4 { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; color: var(--silver); text-transform: uppercase; margin-bottom: 0.8rem; }
+    .footer-links a { display: block; margin-bottom: 0.55rem; color: var(--text-secondary); font-size: 0.88rem; }
+    .legal { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(48,54,63,0.6); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; color: var(--dgrey); text-transform: uppercase; }
+    .legal a { color: var(--dgrey); }
+    .legal a:hover { color: var(--silver); }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 900px) { .nav-links { display: none; } .footer-grid { grid-template-columns: 1fr; text-align: center; } }
+    @media (max-width: 640px) { section { padding: 4rem 0; } .nav-cta { flex-direction: column; gap: 0.5rem; } .btn { width: 100%; } table { font-size: 0.82rem; } th, td { padding: 0.65rem; } #disclaimer, #terms-compliance { padding: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <canvas id="water-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.14;pointer-events:none;"></canvas>
+
+  <header>
+    <div class="container flex nav">
+      <a href="/" class="brand">QUIET WATER</a>
+      <nav class="nav-links">
+        <a href="/trainman">Trainman</a>
+        <a href="/calliope">Calliope SDK</a>
+        <a href="#containment">Containment</a>
+        <a href="#monitoring">Monitoring</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="/checkout" data-product="trainman" data-tier="institutional" class="btn btn-primary checkout-link">Get License</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container text-center" style="padding-top: 8rem; padding-bottom: 3rem;">
+      <div class="license-badge">✓ Runtime Isolation • Verifiable Boundaries</div>
+      <span class="section-label">Runtime Containment & Monitoring</span>
+      <h1 class="section-title" style="font-size: clamp(2.8rem, 6vw, 4.2rem);">Trainman Suite</h1>
+      <p class="section-subtitle">Process isolation, resource bounding, and behavioral telemetry for compositional AI pipelines. Predictable execution. Contained failure.</p>
+      <div class="flex" style="justify-content:center; gap:1.2rem; flex-wrap:wrap;">
+        <a href="#containment" class="btn btn-primary">Explore Architecture</a>
+        <a href="https://github.com/quietwater/trainman-suite" target="_blank" class="btn btn-outline">View Source</a>
+      </div>
+      <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.4rem;opacity:0.6;">
+        <span style="font-family:var(--font-mono);font-size:0.5rem;letter-spacing:0.2em;color:var(--dgrey);text-transform:uppercase;">Scroll</span>
+        <div style="width:1px;height:28px;background:linear-gradient(180deg,var(--dgrey),transparent);animation:pulse 2s ease infinite;"></div>
+      </div>
+    </section>
+
+    <section class="container">
+      <nav class="toc reveal">
+        <h2>Contents</h2>
+        <ul>
+          <li><a href="#containment">Containment</a></li>
+          <li><a href="#bounding">Resource Limits</a></li>
+          <li><a href="#monitoring">Behavioral Telemetry</a></li>
+          <li><a href="#integration">Integration</a></li>
+          <li><a href="#audit">Audit Status</a></li>
+          <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section id="containment" class="container">
+      <div class="reveal">
+        <span class="section-label">Isolation Architecture</span>
+        <h2 class="section-title">Process Containment</h2>
+        <p class="section-subtitle" style="margin-bottom:2.5rem;">Trainman executes agents in hardened, ephemeral boundaries. Network egress, filesystem access, and memory allocation are strictly governed. Failure remains contained; impact does not propagate.</p>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.2rem;">
+          <div class="card"><h3>Ephemeral Sandboxes</h3><p>Each execution runs in a fresh, cryptographically isolated environment. State is discarded on termination.</p></div>
+          <div class="card"><h3>Network Egress Control</h3><p>Outbound connections are routed through allowlists. DNS, proxy, and TLS inspection enforce policy compliance.</p></div>
+          <div class="card"><h3>Filesystem Virtualization</h3><p>Read-only base layers. Write paths are scoped, logged, and purged post-execution.</p></div>
+          <div class="card"><h3>Crash Containment</h3><p>Segfaults, OOM, and infinite loops are trapped. Resource limits trigger graceful teardown, not cascade failure.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bounding" class="container">
+      <div class="reveal">
+        <span class="section-label">Resource Governance</span>
+        <h2 class="section-title">Memory & CPU Bounding</h2>
+        <div class="code-box mono">
+          <span class="comment"># Trainman configuration snippet</span><br>
+          <span class="cmd">trainman</span> = TrainmanExecutor(<br>
+          &nbsp;&nbsp;memory_limit=<span class="cmd">"512Mi"</span>,<br>
+          &nbsp;&nbsp;cpu_quota=<span class="cmd">0.75</span>,<br>
+          &nbsp;&nbsp;timeout=<span class="cmd">30</span>,<br>
+          &nbsp;&nbsp;oom_policy=<span class="cmd">"graceful"</span><br>
+          )<br><br>
+          <span class="cmd">result</span> = trainman.execute(agent=<span class="var">my_model</span>, payload=<span class="var">query</span>)
+        </div>
+        <p class="mono" style="color:var(--text-secondary);margin-top:1rem;">cgroups + seccomp + namespace isolation. Deterministic resource ceilings. No surprise spikes.</p>
+      </div>
+    </section>
+
+    <section id="monitoring" class="container">
+      <div class="reveal">
+        <span class="section-label">Telemetry & Audit</span>
+        <h2 class="section-title">Behavioral Monitoring</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.2rem;">
+          <div class="card">
+            <h3>Execution Trace</h3>
+            <p>Structured logs of syscalls, network flows, and memory pressure. Exportable to SIEM or TimescaleDB.</p>
+          </div>
+          <div class="card">
+            <h3>Policy Violation Alerts</h3>
+            <p>Real-time signals when agents breach allowlists, exceed quotas, or exhibit anomalous runtime behavior.</p>
+          </div>
+          <div class="card">
+            <h3>Chain-Ready Export</h3>
+            <p>Hash-chained audit logs compatible with enterprise compliance frameworks (SOC2, ISO27001, NIST).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="integration" class="container text-center">
+      <div class="reveal">
+        <span class="section-label">Integration</span>
+        <h2 class="section-title">Drop-In Deployment</h2>
+        <div class="code-box mono" style="padding:1.5rem;line-height:1.8;display:inline-block;">
+          <span class="comment">[Calliope Gating Decision]</span> <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+          <span class="comment">[Trainman Executor]</span> → Allocates sandbox, enforces limits<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+          <span class="comment">[Agent Execution]</span> → Runs within bounded environment<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+          <span class="comment">[Telemetry Export]</span> → Logs, metrics, alerts → SIEM / Audit Trail
+        </div>
+        <div class="stack-note" style="max-width:700px;margin:1.5rem auto 0;text-align:left;">
+          <strong>Stack Position:</strong> Calliope gates logic coherence → Trainman contains runtime execution. Together: predictable agents, isolated boundaries, unified audit.
+        </div>
+      </div>
+    </section>
+
+    <section id="audit" class="container">
+      <div class="reveal">
+        <span class="section-label">Verification</span>
+        <h2 class="section-title">Code Audit Status</h2>
+        <div class="card" style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:28%">Component</th>
+                <th style="width:18%">Status</th>
+                <th style="width:26%">Verification Method</th>
+                <th style="width:28%">Last Validated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>executor.py</code></td><td><span class="pass">✓ VERIFIED</span></td><td>cgroup limits, seccomp filters, namespace isolation</td><td>Automated on push</td></tr>
+              <tr><td><code>network_policy.py</code></td><td><span class="pass">✓ VERIFIED</span></td><td>iptables/eBPF allowlists, DNS proxy, TLS validation</td><td>CI/CD Pipeline</td></tr>
+              <tr><td><code>telemetry_export.py</code></td><td><span class="pass">✓ VERIFIED</span></td><td>Hash-chained logs, SIEM format validation, export tests</td><td>CI/CD Pipeline</td></tr>
+              <tr><td><code>cli/daemon.py</code></td><td><span style="color:var(--gold);font-weight:600;">◐ PARTIAL</span></td><td>Signal handling, graceful teardown, systemd integration</td><td>Manual review v2</td></tr>
+              <tr><td>Security Scan</td><td><span class="pass">✓ CLEAN</span></td><td>Privilege escalation tests, CVE audit, container drift</td><td>Weekly automated</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="disclaimer" class="container reveal">
+      <h2>General Disclaimer</h2>
+      <p>Quiet Water products are provided "as is" and are intended for use by security‑aware operators and development teams. To the maximum extent permitted by applicable law, we disclaim all warranties, whether express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non‑infringement. While we take reasonable care in design, testing, and documentation, we do not warrant that our products will be error‑free, fully effective, or suitable for every environment. You are responsible for evaluating fitness for your use case and for any operational decisions made based on product output.</p>
+      <h3>Product‑Specific Addenda</h3>
+      <h4>Trainman Suite</h4>
+      <p>Trainman Suite provides runtime containment and behavioral monitoring as part of a layered defense strategy, but it does not guarantee isolation against all known or novel attack vectors. Effectiveness depends on configuration, environment, and integration with existing controls. You should perform thorough testing in a staging or non‑production environment before deploying Trainman in production systems. To the maximum extent permitted by applicable law, Quiet Water shall not be liable for any direct, indirect, incidental, or consequential damages arising from use.</p>
+    </section>
+
+    <section id="terms-compliance" class="container reveal">
+      <h2>Terms and Jurisdiction</h2>
+      <p>Quiet Water products are offered subject to these terms and applicable law. By using any Quiet Water product, you acknowledge that you have read, understood, and agreed to this disclaimer and our broader terms of use (when published). Quiet Water is not a security‑managed service provider and does not provide, nor is it responsible for, individual security monitoring or incident response.</p>
+      <p>Quiet Water products are developed and operated from multiple jurisdictions, with primary operational and legal focus on the United States and the European Union. To the extent permitted by applicable law, these terms and any disputes arising from the use of Quiet Water products shall be governed by the laws of the United States (without regard to conflict‑of‑law principles), while respecting relevant EU‑level frameworks such as GDPR, the NIS‑2 Directive, and other applicable cybersecurity regulations. You are responsible for ensuring that your use of Quiet Water products complies with all applicable local laws, including data protection and export‑control rules.</p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="brand">QUIET WATER</div><p>Proprietary AI security infrastructure.<br>Calibrated for enterprise, government, and sovereign deployments.</p></div>
+      <div class="footer-links"><h4>Products</h4><a href="/calliope">Calliope SDK</a><a href="/trainman">Trainman Suite</a><a href="#audit">Documentation</a></div>
+      <div class="footer-links"><h4>Contact</h4><a href="mailto:sales@quietwater.sh">Sales</a><a href="mailto:support@quietwater.sh">Support</a><a href="mailto:legal@quietwater.sh">Legal</a></div>
+    </div>
+    <div class="legal">© 2026 Quiet Water Security. All Rights Reserved.<br>SDK: MIT License • Enterprise Runtime: Commercial License v2.1<br><a href="#disclaimer">Disclaimer</a> • <a href="#terms-compliance">Terms & Jurisdiction</a></div>
+  </footer>
+
+  <script>
+    const PAYMENT = {
+      providers: { gumroad: "https://gumroad.com/l/quietwater?variant=" },
+      default: "gumroad",
+      routes: {
+        "trainman-builder": "trainman-builder",
+        "trainman-pilot": "trainman-pilot",
+        "trainman-institutional": "trainman-institutional",
+        "trainman-enterprise": "trainman-enterprise"
+      }
+    };
+
+    document.querySelectorAll('.checkout-link').forEach(btn => {
+      const prod = btn.dataset.product, tier = btn.dataset.tier;
+      if (prod && tier && PAYMENT.routes[`${prod}-${tier}`]) {
+        btn.href = PAYMENT.providers[PAYMENT.default] + PAYMENT.routes[`${prod}-${tier}`];
+      }
+    });
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), 150); });
+    }, { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    const canvas = document.getElementById('water-canvas'), ctx = canvas.getContext('2d');
+    let W, H, t=0;
+    const resize = () => { W=canvas.width=innerWidth; H=canvas.height=innerHeight; };
+    resize(); window.addEventListener('resize', resize);
+    function draw() {
+      ctx.clearRect(0,0,W,H); t+=0.0025;
+      for(let r=0;r<=45;r++){
+        ctx.beginPath();
+        for(let c=0;c<=70;c++){
+          const x=(c/70)*W, y=(r/45)*H;
+          const dy=Math.sin(c*0.12+t)*2.2 + Math.sin(r*0.09+t*0.6)*1.4;
+          ctx.strokeStyle=`rgba(200,168,80,${0.025+r*0.003})`; ctx.lineWidth=0.4;
+          c===0?ctx.moveTo(x,y+dy):ctx.lineTo(x,y+dy);
+        }
+        ctx.stroke();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+  <style>@keyframes pulse{0%,100%{opacity:.2}50%{opacity:.7}}</style>
+</body>
+</html>
